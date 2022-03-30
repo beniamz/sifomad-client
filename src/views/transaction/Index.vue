@@ -1,49 +1,42 @@
-<template>
-<div class="container my-3">
-    <div class="row justify-content-center">
-        <div class="col=8">
+<template>  
+
+<div class="container">
+     <h3>Transaction List</h3>
+    <div class="card rounded shadow">
+        <div class="card-header">                    
             
-            <div class="card rounded shadow">
-                <div class="card-header">                    
-                    <h3>Transaction List</h3>
-                    <div class="d-grid  d-md-flex justify-content-md-end">
-                        <Router-link :to="{ name: 'transaction.create'}" class="btn btn-primary me-md-2">Tambah Data
-                        </Router-link>  
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="table table-responsive table-sm table-hover">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Nama</th>
-                                    <th>Amount</th>
-                                    <th>Type</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(transaction, index) in transactions.data" :key="index">
-                                    <td>{{ transaction.title }}</td>
-                                    <td>{{ transaction.amount }}</td>
-                                    <td>{{ transaction.type}}</td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <Router-link :to="{ name: 'transaction.edit', params:{id:1}}" class="btn btn-sm btn-outline-info">Edit
-                                            </Router-link>
-                                            <button class="btn btn-sm btn-outline-danger">Delete</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+            <Router-link :to="{ name: 'transaction.create'}" class="btn btn-primary btn-sm">Tambah Data</Router-link>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive text-nowrap">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Amount</th>
+                            <th>Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">                      
+                        <tr v-for="(transaction, index) in transactions.data" :key="index">
+                            <td>{{ transaction.title }}</td>
+                            <td>{{ transaction.amount }}</td>
+                            <td>{{ transaction.type}}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <Router-link :to="{ name: 'transaction.edit', params:{id: transaction.id},}" class="btn btn-sm btn-outline-info">Edit
+                                    </Router-link>
+                                    <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-</div>
-       
+</div>  
 </template>
 
 <script>
