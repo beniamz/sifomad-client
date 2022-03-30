@@ -4,7 +4,7 @@
         <div class="card rounded shadow">
             <div class="card-header">                    
                 
-                <Router-link :to="{ name: 'transaction.create'}" class="btn btn-primary btn-sm">Tambah Data</Router-link>
+                <Router-link :to="{ name: 'transaction.create'}" class="btn btn-primary">Tambah Data</Router-link>
             </div>
             <div class="card-body">
                 <div class="table-responsive text-nowrap">
@@ -31,7 +31,8 @@
                                             <Router-link :to="{ name: 'transaction.edit', params:{id: transaction.id},}" class="dropdown-item text-info" href="javascript:void(0);"
                                                 ><i class="bx bx-edit-alt me-1"></i> Edit</Router-link>
                                             <a class="dropdown-item text-danger" href="javascript:void(0);"
-                                                ><i class="bx bx-trash me-1 "></i> Delete</a>
+                                                @click.prevent="destroy(transaction.id,index)">
+                                                <i class="bx bx-trash me-1 "></i> Delete</a>
                                         </div>
                                     </div>
                                 </td>
@@ -64,8 +65,18 @@ export default {
                 });
         });
 
+        function destroy(id, index) {
+            axios.delete(`http://localhost:8000/api/transaction/${id}`)
+            .then(() => {
+                transactions.value.data.splice(index, 1)
+            }).catch((err) => {
+                console.log(err.response.data);
+            });   
+        }
+
         return {
-            transactions
+            transactions,
+            destroy
         }
     }    
 }

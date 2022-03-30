@@ -1,14 +1,19 @@
 <template>
 <div class="container">
-    <h3>Form Create Transaction     
-        <span><Router-link :to="{ name: 'transaction.index'}" class="btn btn-secondary btn-sm ml-5">Kembali</Router-link></span>
-    </h3>
+    <div class="row">
+        <div class="col">
+            <h3>Form Create Transaction</h3>
+        </div> 
+        <div class="col">
+            <Router-link :to="{ name: 'transaction.index'}" class="btn btn-primary btn-sm float-sm-end">Kembali</Router-link>
+        </div>   
+    </div>
     <div>
         <div class="nav-align-top mb-4">
             <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
                 <li class="nav-item">
                     <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-justified-profile" aria-controls="navs-pills-justified-profile" aria-selected="true">
-                        <i class="tf-icons bx bx-user"></i> Home
+                        <i class="tf-icons bx bx-user"></i> Profile
                     </button>
                 </li>
                 <li class="nav-item">
@@ -32,15 +37,15 @@
                                         <label class="col-sm-2 col-form-label" for="basic-default-title">Title</label>
                                         <div class="col-sm-12">
                                             <input type="text" class="form-control" id="basic-default-title" placeholder="Title" v-model="transaction.title" />
-                                            <div class="text-danger">
-                                                Validation message
+                                            <div v-if="validation.title" class="text-danger">
+                                                {{ validation.title[0] }}
                                             </div>
                                         </div>
                                         <label class="col-sm-2 col-form-label" for="basic-default-amount">Amount</label>
                                         <div class="col-sm-12">
-                                            <input type="number" class="form-control" id="basic-default-amount" placeholder="50000" v-model="transaction.amount" />
-                                            <div class="text-danger">
-                                                Validation message
+                                            <input type="text" class="form-control" id="basic-default-amount" placeholder="50000" v-model="transaction.amount" />
+                                            <div v-if="validation.amount" class="text-danger">
+                                                {{ validation.amount[0] }}
                                             </div>
                                         </div>
                                     </div>
@@ -52,22 +57,26 @@
                                                 <option value="revenue">Revenue</option>
                                                 <option value="expense">Expense</option>
                                             </select>
-                                            <div class="text-danger">
-                                                Validation message
+                                            <div v-if="validation.type" class="text-danger">
+                                                {{ validation.type[0] }}
                                             </div>
                                         </div>
-                                        <label class="col-sm-2 col-form-label" for="basic-default-timestamp">Time</label>
+                                        <label class="col-sm-2 col-form-label" for="basic-default-time">Time</label>
                                         <div class="col-sm-12">
-                                            <input type="text" class="form-control" id="basic-default-timestamp" placeholder="yyyy-mm-dd hh:mm:ss" v-model="transaction.time" />
-                                            <div class="text-danger">
-                                                Validation message
+                                            <input type="text" class="form-control" id="basic-default-timep" placeholder="yyyy-mm-dd hh:mm:ss" v-model="transaction.time" />
+                                            <div v-if="validation.time" class="text-danger">
+                                                {{ validation.time[0] }}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div>
-                                    <button type="submit" class="btn btn-primary mt-3 full-right">Tambah Data</button>
+                                <div class="divider">
+                                    <div class="divider-text">End Form</div>
                                 </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary text-center">Tambah Data</button>
+                                </div>
+                                
                             </form>
                             </div>
                         </div>   
@@ -101,11 +110,11 @@ export default {
             type: '',
             time: '',
         });
-        
+        // validasi dulu
         const validation = ref([]);
-
+        // fungsi tombol back
         const router = useRouter();
-
+        // fungsi kirim data ke server
         function store() {
                 axios.post('http://localhost:8000/api/transaction',
                 transaction
@@ -119,7 +128,7 @@ export default {
                 validation.value = err.response.data
             });            
         }
-
+        // fungsi semua const
         return {
             transaction,
             validation,
